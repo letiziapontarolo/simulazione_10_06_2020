@@ -68,6 +68,8 @@ public class Actor{
 			return false;
 		return true;
 	}
+	
+	
 
 	
 }

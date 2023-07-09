@@ -35,10 +35,10 @@ public class FXMLController {
     private Button btnSimulazione; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxGenere"
-    private ComboBox<?> boxGenere; // Value injected by FXMLLoader
+    private ComboBox<String> boxGenere; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxAttore"
-    private ComboBox<?> boxAttore; // Value injected by FXMLLoader
+    private ComboBox<String> boxAttore; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtGiorni"
     private TextField txtGiorni; // Value injected by FXMLLoader
@@ -48,11 +48,38 @@ public class FXMLController {
 
     @FXML
     void doAttoriSimili(ActionEvent event) {
+    	
+    String attore = boxAttore.getSelectionModel().getSelectedItem();
+   	 if (attore == null) {
+   	 txtResult.appendText("Perfavore seleziona un attore!\n");
+   	 return;
+   	 }
+   	 
+   	txtResult.appendText("\nATTORI SIMILI A: " + attore + "\n");
+   	txtResult.appendText(this.model.attoriSimili(attore));
 
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	
+    	String genere = boxGenere.getSelectionModel().getSelectedItem();
+    	 if (genere == null) {
+    	 txtResult.appendText("Perfavore seleziona un genere!\n");
+    	 return;
+    	 }
+    	 
+    	 this.model.creaGrafo(genere);
+    	 
+    	 txtResult.appendText("GRAFO CREATO!\n");
+    	 txtResult.appendText("#VERTICI: " + this.model.numeroVertici() + "\n");
+    	 txtResult.appendText("#ARCHI: " + this.model.numeroArchi() + "\n");
+    	 
+    	 boxAttore.getItems().addAll(this.model.listaAttori());
+    	 
+
 
     }
 
@@ -75,5 +102,6 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	boxGenere.getItems().addAll(this.model.listaGeneri());
     }
 }
